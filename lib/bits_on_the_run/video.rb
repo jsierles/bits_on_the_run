@@ -1,5 +1,13 @@
 module BitsOnTheRun
   class Video
+
+    def self.list
+      client = Client.new('/videos/list')
+      client.response.elements["//videos"].map do |fragment|
+        new(REXML::Document.new(fragment.to_s)) if fragment.respond_to?(:name)
+      end.compact
+    end
+
     def self.show(video_key)
       client = Client.new('/videos/show', :video_key => video_key)
       new(client.response)
@@ -9,6 +17,12 @@ module BitsOnTheRun
       returning new(params) do |video|
         video.save!
       end
+    end
+    
+    def self.update(video_key)          
+    end
+  
+    def self.delete(video_key)          
     end
 
     attr_reader :key
@@ -47,6 +61,8 @@ module BitsOnTheRun
       @key = post_video.key
       post_video.response(filename)
     end
+
+  
 
     private
 
@@ -107,3 +123,4 @@ module BitsOnTheRun
     end
   end
 end
+
