@@ -1,11 +1,18 @@
 module BitsOnTheRun
   class Video
 
-    def self.list
-      client = Client.new('/videos/list')
+    def self.list(options = nil)
+      if options.is_a?(String) && !options.empty?
+        require 'cgi'
+        uri = URI.parse(options)
+        options = CGI.parse(uri.query)
+      end
+      
+      client = Client.new('/videos/list', options)
       client.response.elements["//videos"].map do |fragment|
         new(REXML::Document.new(fragment.to_s)) if fragment.respond_to?(:name)
       end.compact
+
     end
 
     def self.show(video_key)
