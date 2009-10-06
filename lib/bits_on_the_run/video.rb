@@ -25,13 +25,16 @@ module BitsOnTheRun
         video.save!
       end
     end
-    
-    def self.update(video_key)          
-    end
-  
-    def self.delete(video_key)          
+
+    def self.delete!(video_key)
+      Video.delete(video_key)
     end
 
+    def self.delete(video_key)
+      client = Client.new('/video/delete', :video_key => video_key)      
+      new(client.response)
+    end
+    
     attr_reader :key
     attr_accessor :author, :date, :description, :duration, :link, :status
     attr_accessor :tags, :title, :filename
@@ -68,8 +71,6 @@ module BitsOnTheRun
       @key = post_video.key
       post_video.response(filename)
     end
-
-  
 
     private
 
