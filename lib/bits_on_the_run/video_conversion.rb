@@ -1,11 +1,32 @@
 module BitsOnTheRun
   class VideoConversion
+    def self.show(video_key)
+      client = Client.new('/videos/conversions/show', :conversion_key => video_key)
+      new(client.response)
+    end
+
     def self.list(video_key)
       client = Client.new('/videos/conversions/list', :video_key => video_key)
       client.response.elements["//conversions"].map do |fragment|
         puts fragment.to_s
         new(REXML::Document.new(fragment.to_s)) if fragment.respond_to?(:name)
       end.compact
+    end
+
+    def self.delete!(video_key)
+      VideoConversion.delete(video_key)
+    end
+
+    def self.delete(video_key)
+      client = Client.new('/videos/conversions/delete', :video_key => video_key)
+      client.response.elements["/response/status"]
+    end
+
+    def self.create!(video_key, template_id)
+      client = Client.new('/videos/conversions/create', :video_key => video_key, :template_id => template_id)
+      post_video = VideoCreateResponse.new(client.response)
+      @key = post_video.key
+      post_video.response(filename)
     end
 
     attr_reader :key
