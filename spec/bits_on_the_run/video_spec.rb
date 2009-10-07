@@ -876,7 +876,7 @@ describe Video do
 
   end
 
-  describe "Deleting a video from the API (/video/delete)" do
+  describe "Deleting a video from the API (/videos/delete)" do
     before(:each) do
       client = Client.new('/some/action')
       client.stub!(:response).and_return REXML::Document.new <<-XML
@@ -886,15 +886,34 @@ describe Video do
       </response>
       XML
       Client.stub!(:new).and_return(client)
-      @video = Video.delete!("yYul4DRz")
+      @status = Video.delete!("yYul4DRz")
     end
 
     it "should return status 'ok'" do
-      @video.status.should == 'ok'
+      @status.should == "ok"
     end
+
   end
 
+  describe "Updating a video from the API (/videos/update)" do
+    before(:each) do
+      video_key = "yYul4DRz"
+      video_attributes = {:title => "New Video Three"}
+      client = Client.new('/some/action')
+      client.stub!(:response).and_return REXML::Document.new <<-XML
+      <?xml version="1.0" encoding="UTF-8"?>
+      <response>
+        <status>ok</status>
+      </response>
+      XML
+      Client.stub!(:new).and_return(client)
+      @status = Video.update(video_key, video_attributes)
+    end
 
+    it "should return status 'ok' " do
+      @status.should == "ok"
+    end
+  end
 
 end
 
