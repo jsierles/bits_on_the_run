@@ -91,7 +91,7 @@ describe Video do
       it "should return status 'ok'" do
         @conversion.should == "ok"
       end
-
     end
-  
   end
+
+end
