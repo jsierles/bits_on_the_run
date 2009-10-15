@@ -13,6 +13,18 @@ module BitsOnTheRun
         new(REXML::Document.new(fragment.to_s)) if fragment.respond_to?(:name)
       end.compact
     end
+    
+    def self.create!(video_key, template_id) 
+      VideoConversion.save(video_key, template_id)
+    end
+    
+    def self.save(video_key, template_id)
+      conversion = Client.new('/videos/conversions/create', 
+        :video_key => video_key, 
+        :template_id => template_id
+      ) 
+      conversion.response.elements["//status"][0]
+    end
 
     def self.delete!(video_key)
       VideoConversion.delete(video_key)
