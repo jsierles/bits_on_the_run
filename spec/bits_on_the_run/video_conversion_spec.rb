@@ -37,7 +37,7 @@ describe Video do
       @conversion = VideoConversion.show("SjwIOMZV")
     end
 
-    it "should return a video instance" do
+    it "should return a video conversion instance" do
       @conversion.should be_a(VideoConversion)
     end
 
@@ -60,38 +60,18 @@ describe Video do
       client = Client.new('/some/action')
       client.stub!(:response).and_return REXML::Document.new <<-XML
       <?xml version="1.0" encoding="UTF-8"?>
-      <response>
-        <status>ok</status>
-      </response>
+        <response>
+          <status>ok</status>
+        </response>
       XML
       Client.stub!(:new).and_return(client)
       @status = VideoConversion.delete!("yYul4DRz")
     end
-
+  
     it "should return status 'ok'" do
       @status.should == "ok"
     end
-
+  
   end
-
-  describe "Creating a video conversion from the API (/videos/conversions/create)" do
-    before(:each) do
-      client = Client.new('/some/action')
-      client.stub!(:response).and_return REXML::Document.new <<-XML
-      <?xml version="1.0" encoding="UTF-8"?>
-      <response>
-        <status>ok</status>
-        <conversion key="O7oHKFgm" />
-      </response>
-
-      XML
-      Client.stub!(:new).and_return(client)
-      @conversion = VideoConversion.create!("O7oHKFgm", 50)
-
-      it "should return status 'ok'" do
-        @conversion.should == "ok"
-      end
-    end
-  end
-
+  
 end
