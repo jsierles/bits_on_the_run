@@ -79,7 +79,7 @@ describe Video do
     before(:each) do
       client = Client.new('/videos/list')
       client.stub!(:response).and_return REXML::Document.new <<-XML
-	    <?xml version="1.0" encoding="UTF-8"?>
+      <?xml version="1.0" encoding="UTF-8"?>
       <response>
         <status>ok</status>
         <videos total="2">
@@ -445,13 +445,12 @@ describe Video do
     end
   end
 
-
   describe "Getting videos from the API tag newest, video (/videos/list/?tags=newest,video)" do
     before(:each) do
       options = '?tags=newest,video'
       client = Client.new('/some/action/')
       client.stub!(:response).and_return REXML::Document.new <<-XML
-	    <?xml version="1.0" encoding="UTF-8"?>
+      <?xml version="1.0" encoding="UTF-8"?>
       <response>
         <status>ok</status>
         <videos total="2">
@@ -526,8 +525,8 @@ describe Video do
       options = '?page_limit=1'
       client = Client.new('/some/action/')
       client.stub!(:response).and_return REXML::Document.new <<-XML
-	    <?xml version="1.0" encoding="UTF-8"?>
-	    <response>
+      <?xml version="1.0" encoding="UTF-8"?>
+      <response>
         <status>ok</status>
         <videos total="2">
           <video key="yYul4DRz1">
@@ -591,8 +590,8 @@ describe Video do
       options = '?total_limit=1'
       client = Client.new('/some/action/')
       client.stub!(:response).and_return REXML::Document.new <<-XML
-	    <?xml version="1.0" encoding="UTF-8"?>
-	    <response>
+      <?xml version="1.0" encoding="UTF-8"?>
+      <response>
         <status>ok</status>
         <videos total="1">
           <video key="yYul4DRz1">
@@ -656,8 +655,8 @@ describe Video do
       options = '?text=new%20video'
       client = Client.new('/some/action/')
       client.stub!(:response).and_return REXML::Document.new <<-XML
-	    <?xml version="1.0" encoding="UTF-8"?>
-	    <response>
+      <?xml version="1.0" encoding="UTF-8"?>
+      <response>
         <status>ok</status>
         <videos total="2">
           <video key="yYul4DRz1">
@@ -731,8 +730,8 @@ describe Video do
       options = '?tags=new,video&tags_mode=all'
       client = Client.new('/some/action')
       client.stub!(:response).and_return REXML::Document.new <<-XML
-       <?xml version="1.0" encoding="UTF-8"?>
-	    <response>
+      <?xml version="1.0" encoding="UTF-8"?>
+      <response>
         <status>ok</status>
         <videos total="2">
           <video key="yYul4DRz1">
@@ -806,8 +805,8 @@ describe Video do
       options = '?tags=new,video&tags_mode=any'
       client = Client.new('/some/action')
       client.stub!(:response).and_return REXML::Document.new <<-XML
-       <?xml version="1.0" encoding="UTF-8"?>
-	    <response>
+      <?xml version="1.0" encoding="UTF-8"?>
+      <response>
         <status>ok</status>
         <videos total="2">
           <video key="yYul4DRz1">
@@ -910,9 +909,10 @@ describe Video do
       @status = Video.update(video_key, video_attributes)
     end
 
-    it "should return status 'ok' " do
+    it "should return status 'ok'" do
       @status.should == "ok"
     end
+    
   end
 
 end
