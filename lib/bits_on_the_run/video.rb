@@ -31,8 +31,8 @@ module BitsOnTheRun
     end
 
     def self.update_attributes(video_key, video_attributes)
-      status = CLient.new('videos/update', :video_key => video_key, :video_attributes => video_attributes)
-      status.response.elements["//status"]
+      status = Client.new('videos/update', :video_key => video_key, :video_attributes => video_attributes)
+      status.response.elements["//status"][0]
     end
 
     def self.delete!(video_key)
@@ -41,7 +41,7 @@ module BitsOnTheRun
 
     def self.delete(video_key)
       status = Client.new('/videos/delete', :video_key => video_key)
-      status.response.elements["//status"]
+      status.response.elements["//status"][0]
     end
     
     attr_reader :key
