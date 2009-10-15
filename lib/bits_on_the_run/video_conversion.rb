@@ -1,5 +1,6 @@
 module BitsOnTheRun
   class VideoConversion
+    
     def self.show(video_key)
       client = Client.new('/videos/conversions/show', :conversion_key => video_key)
       new(client.response)
@@ -19,14 +20,7 @@ module BitsOnTheRun
 
     def self.delete(video_key)
       client = Client.new('/videos/conversions/delete', :video_key => video_key)
-      client.response.elements["/response/status"]
-    end
-
-    def self.create!(video_key, template_id)
-      client = Client.new('/videos/conversions/create', :video_key => video_key, :template_id => template_id)
-      post_video = VideoCreateResponse.new(client.response)
-      @key = post_video.key
-      post_video.response(filename)
+      client.response.elements["//status"][0]
     end
 
     attr_reader :key
