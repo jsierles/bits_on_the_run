@@ -52,7 +52,6 @@ describe Video do
     it "should have the template_id '50'" do
       @conversion.template_id.should == 50
     end
-
   end
 
   describe "Deleting a video conversion from the API (/videos/conversions/delete)" do
@@ -70,8 +69,7 @@ describe Video do
   
     it "should return status 'ok'" do
       @status.should == "ok"
-    end
-  
+    end 
   end
   
   describe "Creating a video conversion from the API (/videos/conversions/create) " do
@@ -88,10 +86,32 @@ describe Video do
       @conversion = VideoConversion.create!("O7oHKFgm", 50)     
     end
  
-    it "should return status 'ok'" do      
-      @conversion.should == "ok"
+    it "should return status 'ok'" do  
+      @conversion.status.should == "ok"
     end
     
+    it "should return key 'O7oHKFgm'" do
+      @conversion.key.should == "O7oHKFgm"
+    end
+  end
+  
+  describe "Creating a video conversion from the API with raise error (/videos/conversions/create) " do
+    before(:each) do
+      client = Client.new('/some/action')
+      client.stub!(:response).and_return REXML::Document.new <<-XML
+      <?xml version="1.0" encoding="UTF-8"?>
+      <response>
+        <status>Error returned from Bits on the run API</status>
+        <conversion key="O7oHKFgm" />
+      </response>
+      XML
+      Client.stub!(:new).and_return(client)
+      @conversion = VideoConversion.create!("O7oHKFgm", 50)     
+    end
+ 
+    it "should return status 'Error returned from Bits on the run API'" do      
+      @conversion.status.should == "Error returned from Bits on the run API"
+    end
   end
   
 end
