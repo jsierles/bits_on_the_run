@@ -23,7 +23,7 @@ module BitsOnTheRun
         :video_key => video_key, 
         :template_id => template_id
       ) 
-      conversion.response.elements["//status"][0]
+      new(conversion.response)
     end
 
     def self.delete!(video_key)
