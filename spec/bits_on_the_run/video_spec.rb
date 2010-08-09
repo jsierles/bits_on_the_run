@@ -31,6 +31,7 @@ describe Video do
           <status>ready</status>
           <tags>new, video</tags>
           <title>New test video</title>
+          <views>10</views>
         </video>
       </response>
       XML
@@ -73,6 +74,27 @@ describe Video do
 
     it "should have the title 'New test video'" do
       @video.title.should == 'New test video'
+    end
+
+    it "should have 10 views" do
+      @video.views.should == 10
+    end
+  end
+
+  describe "Deleting a video (/videos/delete)" do
+    before(:each) do
+      client = Client.new('/some/action')
+      client.stub!(:response).and_return REXML::Document.new <<-XML
+      <?xml version="1.0" encoding="UTF-8"?>
+      <response>
+        <status>ok</status>
+      </response>
+      XML
+      Client.stub!(:new).and_return(client)
+    end
+
+    it "should not throw an error" do
+      Video.delete("yYul4DRz")
     end
   end
 end
