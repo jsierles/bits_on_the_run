@@ -15,10 +15,16 @@ module BitsOnTheRun
       @params = default_params.merge(params)
     end
 
+    def self.version
+      client = Client.new('/version')
+      client.response.elements["/response/version"][0].to_s
+    end
+    
     def response
       @response ||= REXML::Document.new(Curl::Easy.perform(url).body_str)
 
       status = @response.elements["/response/status"][0].to_s
+
       if status != "ok"
         raise BadResponseError.new("Error returned from Bits on the run API: #{status}")
       end

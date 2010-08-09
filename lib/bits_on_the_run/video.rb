@@ -20,6 +20,10 @@ module BitsOnTheRun
       new(client.response)
     end
 
+    def self.delete(video_key)
+      client = Client.new('/videos/delete', :video_key => video_key)
+    end
+    
     def self.create!(params = {})
       returning new(params) do |video|
         video.save!
@@ -44,7 +48,7 @@ module BitsOnTheRun
       status.response.elements["//status"][0]
     end
     
-    attr_reader :key
+    attr_reader :key, :views
     attr_accessor :author, :date, :description, :duration, :link, :status
     attr_accessor :tags, :title, :filename
 
@@ -63,7 +67,7 @@ module BitsOnTheRun
     def conversions
       @conversions ||= VideoConversion.list(key)
     end
-
+    
     def save!
       client = Client.new('/videos/create',
         :title       => title,
@@ -107,6 +111,7 @@ module BitsOnTheRun
       self.tags        = params[:tags]        || []
       self.title       = params[:title]
       self.filename    = params[:filename]
+      @views           = params[:views]
     end
 
     def initialize_from_xml(doc)
@@ -122,7 +127,8 @@ module BitsOnTheRun
         :link        => extract_xpath(doc, "//video/link"),
         :status      => extract_xpath(doc, "//video/status"),
         :tags        => tags,
-        :title       => extract_xpath(doc, "//video/title")
+        :title       => extract_xpath(doc, "//video/title"),
+        :views       => extract_xpath(doc, "//video/views").to_i
       )
     end
 
