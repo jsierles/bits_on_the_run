@@ -1,3 +1,5 @@
+require 'digest/md5'
+
 module BitsOnTheRun
   class Video
 
@@ -46,6 +48,13 @@ module BitsOnTheRun
     def self.delete(video_key)
       status = Client.new('/videos/delete', :video_key => video_key)
       status.response.elements["//status"][0]
+    end
+
+    def self.signed_player_url(video_key, player_key, expires_in = 20.seconds)
+      path = "players/#{video_key}-#{player_key}.js"
+      expires_at = (Time.now + expires_in).to_i
+      signature = Digest::MD5.hexdigest("#{path}:#{expires_at}:#{Configuration.api_secret}")
+      "http://content.bitsontherun.com/#{path}?exp=#{expires_at}&sig=#{signature}"
     end
     
     attr_reader :key, :views
