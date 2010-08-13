@@ -11,10 +11,12 @@ http://docs.bitsontherun.com/system-api/
 === Videos
 * /videos/create
 * /videos/show
+* /videos/delete
 
 === Templates and Conversions
 * /videos/templates/list
 * /videos/conversions/list
+* /videos/conversions/delete
 
 = What's Missing
 
@@ -23,7 +25,6 @@ The following are portions of the API that are currently not covered by the gem:
 === Videos
 * /videos/list
 * /videos/update
-* /videos/delete
 
 === Video Templates
 * /videos/templates/show
@@ -31,7 +32,6 @@ The following are portions of the API that are currently not covered by the gem:
 === Video Conversions
 * /videos/conversions/show
 * /videos/conversions/create
-* /videos/conversions/delete
 
 === Video Thumbnails
 * /videos/thumbnails/show
@@ -103,4 +103,4 @@ Direct API calls:
   BitsOnTheRun::VideoConversion.list(video_key)
 
 
-Copyright (c) 2009 Rubaidh Ltd, released under the MIT license
+Copyright (c) 2010 Rubaidh Ltd, released under the MIT license
