@@ -1,13 +1,12 @@
 spec = Gem::Specification.new do |s|
 
   s.name              = 'bits_on_the_run'
-  s.version           = '0.99.0'
-  s.date              = '2009-07-16'
-  s.authors           = ['Graeme Mathieson', 'Mark Connell', 'Rubaidh Ltd']
+  s.version           = '0.99.1'
+  s.date              = '2010-08-13'
+  s.authors           = ['Graeme Mathieson', 'Mark Connell', 'Rubaidh Ltd', 'Joshua Sierles']
   s.email             = 'support@rubaidh.com'
-  s.homepage          = 'http://github.com/rubaidh/bits_on_the_run'
+  s.homepage          = 'http://github.com/jsierles/bits_on_the_run'
   s.summary           = 'Ruby implementation of the Bits on the run API'
-  s.rubyforge_project = 'rubaidh'
 
   s.description = "This is a Ruby implementation of the API for Bits on " + 
     "the run, a video hosting service. See <http://www.bitsontherun.com/> " + 
