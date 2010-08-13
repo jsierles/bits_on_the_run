@@ -16,7 +16,14 @@ module BitsOnTheRun
       end.compact
 
     end
-
+    
+    def self.signed_player_url(video_key, player_key, expires_in = 20.seconds)
+      path = "players/#{video_key}-#{player_key}.js"
+      expires_at = (Time.now + expires_in).to_i
+      signature = Digest::MD5.hexdigest("#{path}:#{expires_at}:#{Configuration.api_secret}")
+      "http://content.bitsontherun.com/#{path}?exp=#{expires_at}&sig=#{signature}"
+    end
+    
     def self.show(video_key)
       client = Client.new('/videos/show', :video_key => video_key)
       new(client.response)

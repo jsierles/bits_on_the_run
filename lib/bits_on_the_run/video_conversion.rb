@@ -25,17 +25,13 @@ module BitsOnTheRun
       new(conversion.response)
     end
 
-    def self.delete!(video_key)
-      VideoConversion.delete(video_key)
-    end
-
-    def self.delete(video_key)
-      client = Client.new('/videos/conversions/delete', :conversion_key => video_key)
-      client.response.elements["//status"][0]
+    def self.delete!(conversion_key)
+      VideoConversion.delete(conversion_key)
     end
 
     def self.delete(conversion_key)
-      Client.new('/videos/conversions/delete', :conversion_key => conversion_key).response
+      client = Client.new('/videos/conversions/delete', :conversion_key => conversion_key)
+      client.response.elements["//status"][0]
     end
 
     attr_reader :key, :duration, :width, :height
