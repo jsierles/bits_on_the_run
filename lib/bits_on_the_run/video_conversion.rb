@@ -3,12 +3,15 @@ module BitsOnTheRun
     def self.list(video_key)
       client = Client.new('/videos/conversions/list', :video_key => video_key)
       client.response.elements["//conversions"].map do |fragment|
-        puts fragment.to_s
         new(REXML::Document.new(fragment.to_s)) if fragment.respond_to?(:name)
       end.compact
     end
 
-    attr_reader :key
+    def self.delete(conversion_key)
+      Client.new('/videos/conversions/delete', :conversion_key => conversion_key).response
+    end
+
+    attr_reader :key, :duration, :width, :height
     attr_accessor :file_size, :status, :template_id, :error_message
 
     def initialize(*args)
@@ -18,12 +21,17 @@ module BitsOnTheRun
         initialize_from_hash(*args)
       end
     end
+    
+    private
 
     def initialize_from_hash(params = {})
       params = params.symbolize_keys
       @key               = params[:key]
       self.file_size     = params[:file_size]
       self.status        = params[:status]
+      @duration          = params[:duration]
+      @height            = params[:height]
+      @width             = params[:width]
       self.template_id   = params[:template_id]
       self.error_message = params[:error_message]
     end
@@ -32,6 +40,9 @@ module BitsOnTheRun
       initialize_from_hash(
         :key           => extract_xpath(doc, "//@key"),
         :file_size     => extract_xpath(doc, "//filesize").to_i,
+        :duration      => extract_xpath(doc, "//duration").to_f,
+        :height        => extract_xpath(doc, "//height").to_i,
+        :width         => extract_xpath(doc, "//width").to_i,
         :status        => extract_xpath(doc, "//status"),
         :template_id   => extract_xpath(doc, "//template/@id").to_i,
         :error_message => extract_xpath(doc, "//error/message")
