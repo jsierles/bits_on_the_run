@@ -4,8 +4,17 @@ require 'uri'
 require 'rexml/document'
 
 # External gem dependencies.
-gem 'activesupport'; require 'active_support/all'
-gem 'curb'; require 'curb'
+gem 'activesupport'
+
+# Handle differences between Activesupport 2 and 3
+begin
+  require 'active_support'
+rescue LoadError
+  require 'active_support/all'
+end
+
+gem 'curb'
+require 'curb'
 
 require File.join(File.dirname(__FILE__), 'bits_on_the_run', 'initializer')
 require File.join(File.dirname(__FILE__), 'bits_on_the_run', 'configuration')
